@@ -3,26 +3,42 @@ package srt
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
+import Configuration._
+import srt.domain._
+import srt.domain.Vector
+import srt.domain.Scene
+import srt.domain.Sphere
+
+object Configuration {
+  val WIDTH = 800
+  val HEIGHT = 800
+}
 
 object Main {
-  val WIDTH = 400
-  val HEIGHT = 400
-
   def main(args: Array[String]) {
     args.toList match {
-      case output :: Nil => write(trace, output)
+      case output :: Nil =>
+        val scene = Scene(
+          List(
+            Sphere(Vector(300, 500, 600), 170, Color.blue),
+            Sphere(Vector(550, 250, 400), 100, Color.red),
+            Sphere(Vector(250, 250, 250), 150, Color.green)
+          )
+        )
+        ImageWriter.write(Tracer(scene).paint, new File(s"$output.png"))
       case _ => sys exit 1
     }
   }
+}
 
-  def trace = for (x <- 0 until WIDTH) yield for (y <- 0 until HEIGHT) yield x * y
-
-  def write(data: Seq[Seq[Int]], output: String) {
+object ImageWriter {
+  def write(data: Seq[Seq[Color]], file: File) {
     val img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB)
     for {
       x <- 0 until WIDTH
       y <- 0 until HEIGHT
-    } img.setRGB(x, y, data(x)(y))
-    ImageIO.write(img, "png", new File(s"$output.png"))
+    } img.setRGB(x, y, data(x)(y).toInt)
+    ImageIO.write(img, "png", file)
   }
 }
+
