@@ -1,0 +1,13 @@
+* shade casted between shapes
+
++ 1h
+
+Scene(
+  Camera(Vector(WIDTH / 2, HEIGHT / 2, -4000)),
+  List(
+    Sphere(Vector(100, 100, 100), 50, Color.green),
+    Sphere(Vector(300, 300, 300), 100, Color.blue),
+    Sphere(Vector(600, 600, 600), 200, Color.red)
+  ),
+  Light(Vector(-200, -200, -200))
+)

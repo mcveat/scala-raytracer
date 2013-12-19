@@ -10,9 +10,18 @@ case class Scene(camera: Camera, shapes: List[Shape], light: Light) {
   def trace(x: Int, y: Int) = {
     val planePosition = Vector(x, y, 0)
     val ray = Ray(planePosition, planePosition - camera.position)
-    val intersectionColors = shapes.map(s => (s, s.intersectionWith(ray)))
-    val (shape, distance) = intersectionColors.sortBy(_._2).head
-    if (distance.isInfinite) Color.black
-    else shape.diffusedShadeColor(distance, light, ray)
+    val intersections = shapes.map(intersect(ray))
+    val possibleIntersection = intersections.flatten.sortBy(_.distance).headOption
+    possibleIntersection.map(colorAtIntersection).getOrElse(Color.black)
   }
+
+  def colorAtIntersection(intersection: Intersection) = {
+    val Intersection(shape, point, _) = intersection
+    val shadowRay = Ray(point, light.position - point)
+    val intersections = shapes.filterNot(shape ==).map(intersect(shadowRay)).flatten
+    val inShade = intersections.map(_.distanceTo(light.position)).exists(intersection.distanceTo(light.position) >)
+    if (inShade) shape.ambientColor else shape.diffusedShadeColor(point, light)
+  }
+
+  def intersect(ray: Ray)(shape: Shape) = shape.intersectionWith(ray)
 }

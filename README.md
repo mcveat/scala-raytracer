@@ -4,6 +4,12 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* shade casted between shapes
+
+![3](progress/3/3.png)
+
+* * *
+
 * scene described by list of spheres and single light source
 * diffused shade on shapes
 

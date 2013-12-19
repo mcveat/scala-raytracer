@@ -22,11 +22,11 @@ object Main {
         val scene = Scene(
           Camera(Vector(WIDTH / 2, HEIGHT / 2, -4000)),
           List(
-            Sphere(Vector(250, 250, 250), 150, Color.green),
-            Sphere(Vector(300, 500, 600), 170, Color.blue),
-            Sphere(Vector(550, 250, 400), 100, Color.red)
+            Sphere(Vector(100, 100, 100), 50, Color.green),
+            Sphere(Vector(300, 300, 300), 100, Color.blue),
+            Sphere(Vector(600, 600, 600), 200, Color.red)
           ),
-          Light(Vector(WIDTH * 5, HEIGHT / 2, 1000))
+          Light(Vector(-200, -200, -200))
         )
         ImageWriter.write(scene.render, new File(s"$output.png"))
       case _ => sys exit 1
