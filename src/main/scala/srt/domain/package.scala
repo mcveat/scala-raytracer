@@ -38,13 +38,18 @@ package object domain {
   }
   case class Sphere(position: Vector, radius: Double, override val color: Color) extends Shape {
     def intersectionWith(ray: Ray) = {
-      val v = position - ray.position
-      val a = v dot ray.direction
-      val b = (v dot v) - (radius * radius)
-      val c = a * a - b
-      if (c >= 0) a - Math.sqrt(c) else Double.PositiveInfinity
+      val a = ray.direction dot ray.direction
+      val b = (ray.position - position) * 2 dot ray.direction
+      val c = (position dot position) +
+              (ray.position dot ray.position) -
+              (ray.position dot position * 2) -
+              Math.pow(radius, 2)
+      val discriminant = Math.pow(b, 2) - (4 * a * c)
+      if (c < 0) Double.PositiveInfinity else -1 * (b + Math.sqrt(discriminant)) / 2 / a
     }
   }
 
-  case class Scene(shapes: List[Shape])
+  case class Camera(position: Vector)
+
+  case class Scene(camera: Camera, shapes: List[Shape])
 }

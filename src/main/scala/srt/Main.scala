@@ -7,7 +7,6 @@ import Configuration._
 import srt.domain._
 import srt.domain.Vector
 import srt.domain.Scene
-import srt.domain.Sphere
 
 object Configuration {
   val WIDTH = 800
@@ -19,6 +18,9 @@ object Main {
     args.toList match {
       case output :: Nil =>
         val scene = Scene(
+          Camera(
+            Vector(WIDTH / 2, HEIGHT / 2, -1000)
+          ),
           List(
             Sphere(Vector(300, 500, 600), 170, Color.blue),
             Sphere(Vector(550, 250, 400), 100, Color.red),
