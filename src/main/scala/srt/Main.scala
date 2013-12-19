@@ -28,7 +28,7 @@ object Main {
           ),
           Light(Vector(WIDTH * 5, HEIGHT / 2, 1000))
         )
-        ImageWriter.write(Tracer(scene).paint, new File(s"$output.png"))
+        ImageWriter.write(scene.render, new File(s"$output.png"))
       case _ => sys exit 1
     }
   }
