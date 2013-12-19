@@ -11,6 +11,8 @@ import srt.domain.Scene
 object Configuration {
   val WIDTH = 800
   val HEIGHT = 800
+  val DIFFUSE_COEFFICIENT = 0.9
+  val AMBIENT_COEFFICIENT = 0.1
 }
 
 object Main {
@@ -18,14 +20,13 @@ object Main {
     args.toList match {
       case output :: Nil =>
         val scene = Scene(
-          Camera(
-            Vector(WIDTH / 2, HEIGHT / 2, -1000)
-          ),
+          Camera(Vector(WIDTH / 2, HEIGHT / 2, -4000)),
           List(
+            Sphere(Vector(250, 250, 250), 150, Color.green),
             Sphere(Vector(300, 500, 600), 170, Color.blue),
-            Sphere(Vector(550, 250, 400), 100, Color.red),
-            Sphere(Vector(250, 250, 250), 150, Color.green)
-          )
+            Sphere(Vector(550, 250, 400), 100, Color.red)
+          ),
+          Light(Vector(WIDTH * 5, HEIGHT / 2, 1000))
         )
         ImageWriter.write(Tracer(scene).paint, new File(s"$output.png"))
       case _ => sys exit 1

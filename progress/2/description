@@ -1,0 +1,14 @@
+* scene described by list of spheres and single light source
+* diffused shade on shapes
+
++ 2h
+
+Scene(
+  Camera(Vector(WIDTH / 2, HEIGHT / 2, -4000)),
+  List(
+    Sphere(Vector(250, 250, 250), 150, Color.green),
+    Sphere(Vector(300, 500, 600), 170, Color.blue),
+    Sphere(Vector(550, 250, 400), 100, Color.red)
+  ),
+  Light(Vector(WIDTH * 5, HEIGHT / 2, 1000))
+)
