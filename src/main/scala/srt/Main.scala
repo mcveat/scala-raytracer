@@ -13,6 +13,7 @@ object Configuration {
   val HEIGHT = 800
   val DIFFUSE_COEFFICIENT = 0.9
   val AMBIENT_COEFFICIENT = 0.1
+  val TRACING_DEPTH = 1
 }
 
 object Main {
@@ -22,11 +23,12 @@ object Main {
         val scene = Scene(
           Camera(Vector(WIDTH / 2, HEIGHT / 2, -4000)),
           List(
-            Sphere(Vector(100, 100, 100), 50, Color.green),
-            Sphere(Vector(300, 300, 300), 100, Color.blue),
-            Sphere(Vector(600, 600, 600), 200, Color.red)
+            Sphere(Vector(200, 200, 200), 200, Material(Color.green, 0.3)),
+            Sphere(Vector(600, 200, 200), 200, Material(Color.blue, 0.3)),
+            Sphere(Vector(600, 600, 250), 200, Material(Color.red, 0.3)),
+            Sphere(Vector(200, 600, 250), 200, Material(Color.white, 0.3))
           ),
-          Light(Vector(-200, -200, -200))
+          Light(Vector(WIDTH / 2, HEIGHT / 2, -500))
         )
         ImageWriter.write(scene.render, new File(s"$output.png"))
       case _ => sys exit 1

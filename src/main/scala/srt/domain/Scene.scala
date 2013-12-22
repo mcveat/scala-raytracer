@@ -7,20 +7,29 @@ import srt.Configuration._
  */
 case class Scene(camera: Camera, shapes: List[Shape], light: Light) {
   def render = for (x <- 0 until WIDTH) yield for (y <- (HEIGHT - 1).to(0, -1)) yield trace(x, y)
-  def trace(x: Int, y: Int) = {
+  def trace(x: Int, y: Int): Color = {
     val planePosition = Vector(x, y, 0)
-    val ray = Ray(planePosition, planePosition - camera.position)
+    val ray = Ray(planePosition, (planePosition - camera.position).normalize)
+    trace(ray, shapes, TRACING_DEPTH)
+  }
+  
+  def trace(ray: Ray, shapes: List[Shape], depth: Int): Color = {
     val intersections = shapes.map(intersect(ray))
     val possibleIntersection = intersections.flatten.sortBy(_.distance).headOption
-    possibleIntersection.map(colorAtIntersection).getOrElse(Color.black)
+    possibleIntersection.map(colorAtIntersection(_, depth)).getOrElse(Color.black)
   }
 
-  def colorAtIntersection(intersection: Intersection) = {
-    val Intersection(shape, point, _) = intersection
+  private def colorAtIntersection(intersection: Intersection, depth: Int) = {
+    val Intersection(_, shape, point, _) = intersection
     val shadowRay = Ray(point, light.position - point)
-    val intersections = shapes.filterNot(shape ==).map(intersect(shadowRay)).flatten
+    val otherShapes = shapes.filterNot(shape ==)
+    val intersections = otherShapes.map(intersect(shadowRay)).flatten
     val inShade = intersections.map(_.distanceTo(light.position)).exists(intersection.distanceTo(light.position) >)
-    if (inShade) shape.ambientColor else shape.diffusedShadeColor(point, light)
+    val calculatedColor = if (inShade) shape.material.ambientColor else shape.diffusedShadeColor(point, light)
+    if (depth == 0 || shape.material.reflectiveness == 0d) calculatedColor
+    else
+      (trace(intersection.reflectedRay, otherShapes, depth - 1) * shape.material.reflectiveness) +
+      (calculatedColor * (1 - shape.material.reflectiveness))
   }
 
   def intersect(ray: Ray)(shape: Shape) = shape.intersectionWith(ray)

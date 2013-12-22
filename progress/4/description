@@ -1,0 +1,15 @@
+* extracted color into material concept and introduced it's reflectiveness
+* reflection of objects in respect of reflectiveness factor
+
++ 4h
+
+Scene(
+  Camera(Vector(WIDTH / 2, HEIGHT / 2, -4000)),
+  List(
+    Sphere(Vector(200, 200, 200), 200, Material(Color.green, 0.3)),
+    Sphere(Vector(600, 200, 200), 200, Material(Color.blue, 0.3)),
+    Sphere(Vector(600, 600, 250), 200, Material(Color.red, 0.3)),
+    Sphere(Vector(200, 600, 250), 200, Material(Color.white, 0.3))
+  ),
+  Light(Vector(WIDTH / 2, HEIGHT / 2, -500))
+)

@@ -4,6 +4,13 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* extracted color into material concept and introduced it's reflectiveness
+* reflection of objects in respect of reflectiveness factor
+
+![4](progress/4/4.png)
+
+* * *
+
 * shade casted between shapes
 
 ![3](progress/3/3.png)
