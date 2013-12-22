@@ -15,7 +15,7 @@ package object domain {
       Ray(position, rayDirection.normalize)
     }
   }
-  case class Light(position: Vector)
+  case class Light(position: Vector, color: Color)
   case class Intersection(ray: Ray, shape: Shape, point: Vector, distance: Double) {
     def distanceTo(p: Vector) = (p - point).length
     def reflectedRay = {
@@ -24,7 +24,7 @@ package object domain {
       Ray(point, direction)
     }
   }
-  case class Material(color: Color, reflectiveness: Double) {
+  case class Material(color: Color, reflectiveness: Double, specularReflectiveness: Double) {
     def ambientColor = color * AMBIENT_COEFFICIENT
     def diffusedShadeColor(factor: Double) =
       if (factor <= 0) ambientColor else color * factor * DIFFUSE_COEFFICIENT + ambientColor

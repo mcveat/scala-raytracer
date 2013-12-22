@@ -4,6 +4,13 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* introduced light color
+* introduced Phong specular reflection
+
+![5](progress/6/6.png)
+
+* * *
+
 * calculating plane position according to camera direction
 
 ![5](progress/5/5.png)

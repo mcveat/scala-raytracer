@@ -19,9 +19,9 @@ case class Scene(camera: Camera, shapes: List[Shape], light: Light) {
     val Intersection(_, shape, point, _) = intersection
     val shadowRay = Ray(point, light.position - point)
     val otherShapes = shapes.filterNot(shape ==)
-    val intersections = otherShapes.map(intersect(shadowRay)).flatten
-    val inShade = intersections.map(_.distanceTo(light.position)).exists(intersection.distanceTo(light.position) >)
-    val calculatedColor = if (inShade) shape.material.ambientColor else shape.diffusedShadeColor(point, light)
+    val shadeIntersections = otherShapes.map(intersect(shadowRay)).flatten
+    val inShade = shadeIntersections.map(_.distanceTo(light.position)).exists(intersection.distanceTo(light.position) >)
+    val calculatedColor = if (inShade) shape.material.ambientColor else shape.getColorAt(intersection, light)
     if (depth == 0 || shape.material.reflectiveness == 0d) calculatedColor
     else
       (trace(intersection.reflectedRay, otherShapes, depth - 1) * shape.material.reflectiveness) +

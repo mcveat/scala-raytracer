@@ -1,0 +1,21 @@
+* introduced light color
+* introduced Phong specular reflection
+
++ 1.5h
+
+val cameraPosition = Vector(WIDTH * 3, HEIGHT * 3, -2000)
+Scene(
+  Camera(
+    position = cameraPosition,
+    direction = (Vector(0, 0, 600) - cameraPosition).normalize,
+    up = Vector(0, 0, 1).normalize,
+    planeDistance = 2000
+  ),
+  List(
+    Sphere(Vector(200, 200, 200), 200, Material(Color.green, 0.3, 0.7)),
+    Sphere(Vector(600, 200, 200), 200, Material(Color.blue, 0.3, 0.7)),
+    Sphere(Vector(600, 600, 250), 200, Material(Color.red, 0.3, 0.7)),
+    Sphere(Vector(200, 600, 250), 200, Material(Color.white, 0.3, 0.7 ))
+  ),
+  Light(Vector(WIDTH / 2, HEIGHT / 2, -500), Color.white)
+)

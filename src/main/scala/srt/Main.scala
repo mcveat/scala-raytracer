@@ -14,6 +14,7 @@ object Configuration {
   val DIFFUSE_COEFFICIENT = 0.9
   val AMBIENT_COEFFICIENT = 0.1
   val TRACING_DEPTH = 1
+  val SPECULAR_COEFFICIENT_POWER = 50
 }
 
 object Main {
@@ -27,12 +28,12 @@ object Main {
         planeDistance = 2000
       ),
       List(
-        Sphere(Vector(200, 200, 200), 200, Material(Color.green, 0.3)),
-        Sphere(Vector(600, 200, 200), 200, Material(Color.blue, 0.3)),
-        Sphere(Vector(600, 600, 250), 200, Material(Color.red, 0.3)),
-        Sphere(Vector(200, 600, 250), 200, Material(Color.white, 0.3))
+        Sphere(Vector(200, 200, 200), 200, Material(Color.green, 0.3, 0.7)),
+        Sphere(Vector(600, 200, 200), 200, Material(Color.blue, 0.3, 0.7)),
+        Sphere(Vector(600, 600, 250), 200, Material(Color.red, 0.3, 0.7)),
+        Sphere(Vector(200, 600, 250), 200, Material(Color.white, 0.3, 0.7 ))
       ),
-      Light(Vector(WIDTH / 2, HEIGHT / 2, -500))
+      Light(Vector(WIDTH / 2, HEIGHT / 2, -500), Color.white)
     )
   }
 
