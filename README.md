@@ -4,10 +4,16 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* introduced plane as new shape
+
+![7](progress/7/7.png)
+
+* * *
+
 * introduced light color
 * introduced Phong specular reflection
 
-![5](progress/6/6.png)
+![6](progress/6/6.png)
 
 * * *
 

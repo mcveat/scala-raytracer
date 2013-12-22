@@ -21,9 +21,14 @@ trait Shape {
     light.color * specularFactor
   }
 
+  def diffusedShadeColor(intersection: Intersection, light: Light): Color = {
+    val lightDirection = (light.position - intersection.point).normalize
+    val factor = normalVectorAt(intersection.point) dot lightDirection
+    material.diffusedShadeColor(factor)
+  }
+
   def intersectionWith(ray: Ray): Option[Intersection]
   def normalVectorAt(point: Vector): Vector
-  def diffusedShadeColor(intersection: Intersection, light: Light): Color
 }
 
 case class Sphere(position: Vector, radius: Double, override val material: Material) extends Shape {
@@ -41,11 +46,19 @@ case class Sphere(position: Vector, radius: Double, override val material: Mater
     if (((point - ray.position) dot ray.direction) > 0d) Some(Intersection(ray, this, point, distance)) else None
   }
 
-  def diffusedShadeColor(intersection: Intersection, light: Light): Color = {
-    val lightDirection = (light.position - intersection.point).normalize
-    val factor = normalVectorAt(intersection.point) dot lightDirection
-    material.diffusedShadeColor(factor)
-  }
+
 
   def normalVectorAt(point: Vector) = (point - position) / radius
+}
+
+case class Plane(normal: Vector, distance: Double, override val material: Material) extends Shape {
+  def intersectionWith(ray: Ray): Option[Intersection] = {
+    val d = normal dot ray.direction
+    if (d == 0) return None
+    val intersectionDistance = -(normal dot ray.position + distance) / d
+    if (intersectionDistance < 0) return None
+    val point = ray.position + ray.direction * intersectionDistance
+    Some(Intersection(ray, this, point, intersectionDistance))
+  }
+  def normalVectorAt(point: Vector) = normal
 }
