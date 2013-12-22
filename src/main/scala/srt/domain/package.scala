@@ -7,7 +7,14 @@ import srt.Configuration._
  */
 package object domain {
   case class Ray(position: Vector, direction: Vector)
-  case class Camera(position: Vector)
+  case class Camera(position: Vector, direction: Vector, up: Vector, planeDistance: Double) {
+    def rayThrough(x: Double, y: Double) = {
+      val right = direction crossProduct up * (-1)
+      val planePosition = position + (direction * planeDistance) + (up * (y - HEIGHT / 2)) + (right * (x - WIDTH / 2))
+      val rayDirection = planePosition - position
+      Ray(position, rayDirection.normalize)
+    }
+  }
   case class Light(position: Vector)
   case class Intersection(ray: Ray, shape: Shape, point: Vector, distance: Double) {
     def distanceTo(p: Vector) = (p - point).length

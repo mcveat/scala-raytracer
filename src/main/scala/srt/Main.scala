@@ -17,20 +17,28 @@ object Configuration {
 }
 
 object Main {
+  val scene = {
+    val cameraPosition = Vector(WIDTH * 3, HEIGHT * 3, -2000)
+    Scene(
+      Camera(
+        position = cameraPosition,
+        direction = (Vector(0, 0, 600) - cameraPosition).normalize,
+        up = Vector(0, 0, 1).normalize,
+        planeDistance = 2000
+      ),
+      List(
+        Sphere(Vector(200, 200, 200), 200, Material(Color.green, 0.3)),
+        Sphere(Vector(600, 200, 200), 200, Material(Color.blue, 0.3)),
+        Sphere(Vector(600, 600, 250), 200, Material(Color.red, 0.3)),
+        Sphere(Vector(200, 600, 250), 200, Material(Color.white, 0.3))
+      ),
+      Light(Vector(WIDTH / 2, HEIGHT / 2, -500))
+    )
+  }
+
   def main(args: Array[String]) {
     args.toList match {
-      case output :: Nil =>
-        val scene = Scene(
-          Camera(Vector(WIDTH / 2, HEIGHT / 2, -4000)),
-          List(
-            Sphere(Vector(200, 200, 200), 200, Material(Color.green, 0.3)),
-            Sphere(Vector(600, 200, 200), 200, Material(Color.blue, 0.3)),
-            Sphere(Vector(600, 600, 250), 200, Material(Color.red, 0.3)),
-            Sphere(Vector(200, 600, 250), 200, Material(Color.white, 0.3))
-          ),
-          Light(Vector(WIDTH / 2, HEIGHT / 2, -500))
-        )
-        ImageWriter.write(scene.render, new File(s"$output.png"))
+      case output :: Nil => ImageWriter.write(scene.render, new File(s"$output.png"))
       case _ => sys exit 1
     }
   }
@@ -46,4 +54,3 @@ object ImageWriter {
     ImageIO.write(img, "png", file)
   }
 }
-

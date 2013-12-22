@@ -4,6 +4,12 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* calculating plane position according to camera direction
+
+![5](progress/5/5.png)
+
+* * *
+
 * extracted color into material concept and introduced it's reflectiveness
 * reflection of objects in respect of reflectiveness factor
 

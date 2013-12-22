@@ -7,13 +7,9 @@ import srt.Configuration._
  */
 case class Scene(camera: Camera, shapes: List[Shape], light: Light) {
   def render = for (x <- 0 until WIDTH) yield for (y <- (HEIGHT - 1).to(0, -1)) yield trace(x, y)
-  def trace(x: Int, y: Int): Color = {
-    val planePosition = Vector(x, y, 0)
-    val ray = Ray(planePosition, (planePosition - camera.position).normalize)
-    trace(ray, shapes, TRACING_DEPTH)
-  }
-  
-  def trace(ray: Ray, shapes: List[Shape], depth: Int): Color = {
+  def trace(x: Int, y: Int): Color = trace(camera.rayThrough(x, y), shapes, TRACING_DEPTH)
+
+  private def trace(ray: Ray, shapes: List[Shape], depth: Int): Color = {
     val intersections = shapes.map(intersect(ray))
     val possibleIntersection = intersections.flatten.sortBy(_.distance).headOption
     possibleIntersection.map(colorAtIntersection(_, depth)).getOrElse(Color.black)
@@ -32,5 +28,5 @@ case class Scene(camera: Camera, shapes: List[Shape], light: Light) {
       (calculatedColor * (1 - shape.material.reflectiveness))
   }
 
-  def intersect(ray: Ray)(shape: Shape) = shape.intersectionWith(ray)
+  private def intersect(ray: Ray)(shape: Shape) = shape.intersectionWith(ray)
 }
