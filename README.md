@@ -4,7 +4,7 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
-* calculating plane position according to camera direction
+* introduced multiple light sources
 
 ![8](progress/8/8.png)
 
