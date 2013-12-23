@@ -5,7 +5,8 @@ package srt.domain
  */
 case class Color(red: Double, green: Double, blue: Double) {
   def + = op(_ + _)
-  def *(d: Double) = op(d * _)
+  def *(d: Double) = op(_ * d)
+  def /(d: Double) = op(_ / d)
   def toInt = ((red * 255).toInt << 16) | ((green * 255).toInt << 8) | (blue * 255).toInt
 
   private def op(f: (Double, Double) => Double) = { (v: Color) =>
@@ -25,4 +26,5 @@ object Color {
   val red = Color(1, 0, 0)
   val green = Color(0, 1, 0)
   val blue = Color(0, 0, 1)
+  val dimGray = Color(0.41, 0.41, 0.41)
 }

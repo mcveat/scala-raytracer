@@ -1,0 +1,17 @@
+* introduced multiple light sources
+
++ 0.5h
+
+Scene(
+  Camera(
+    position = cameraPosition,
+    direction = (Vector(500, 0, 1000) - cameraPosition).normalize,
+    up = Vector(0, 1, 0).normalize,
+    planeDistance = 1000
+  ),
+  List(
+    Plane(Vector(0, 1, 0), 0, Material(Color.dimGray, 0d, 0.7)),
+    Sphere(Vector(500, 200, 400), 200, Material(Color.white, 0d, 0.7))
+  ),
+  (for (x <- 0.to(1000, 200)) yield Light(Vector(x, HEIGHT * 1.5, 400), Color.white)).toList
+)

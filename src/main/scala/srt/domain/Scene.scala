@@ -5,7 +5,7 @@ import srt.Configuration._
 /**
  * User: mcveat
  */
-case class Scene(camera: Camera, shapes: List[Shape], light: Light) {
+case class Scene(camera: Camera, shapes: List[Shape], lights: List[Light]) {
   def render = for (x <- 0 until WIDTH) yield for (y <- (HEIGHT - 1).to(0, -1)) yield trace(x, y)
   def trace(x: Int, y: Int): Color = trace(camera.rayThrough(x, y), shapes, TRACING_DEPTH)
 
@@ -15,17 +15,21 @@ case class Scene(camera: Camera, shapes: List[Shape], light: Light) {
     possibleIntersection.map(colorAtIntersection(_, depth)).getOrElse(Color.black)
   }
 
-  private def colorAtIntersection(intersection: Intersection, depth: Int) = {
+  private def colorAtIntersection(intersection: Intersection, depth: Int): Color = {
+    val shape = intersection.shape
+    val otherShapes = shapes.filterNot(shape ==)
+    val baseColor = lights.map(colorFromLight(intersection, _)).map(_ / lights.size).reduceLeft(_ + _)
+    if (depth == 0 || shape.material.reflectiveness == 0d) return baseColor
+    val reflection = trace(intersection.reflectedRay, otherShapes, depth - 1) * shape.material.reflectiveness
+    reflection + (baseColor * (1 - shape.material.reflectiveness))
+  }
+
+  private def colorFromLight(intersection: Intersection, light: Light) = {
     val Intersection(_, shape, point, _) = intersection
     val shadowRay = Ray(point, light.position - point)
-    val otherShapes = shapes.filterNot(shape ==)
-    val shadeIntersections = otherShapes.map(intersect(shadowRay)).flatten
+    val shadeIntersections = shapes.filterNot(intersection.shape ==).map(intersect(shadowRay)).flatten
     val inShade = shadeIntersections.map(_.distanceTo(light.position)).exists(intersection.distanceTo(light.position) >)
-    val calculatedColor = if (inShade) shape.material.ambientColor else shape.getColorAt(intersection, light)
-    if (depth == 0 || shape.material.reflectiveness == 0d) calculatedColor
-    else
-      (trace(intersection.reflectedRay, otherShapes, depth - 1) * shape.material.reflectiveness) +
-      (calculatedColor * (1 - shape.material.reflectiveness))
+    if (inShade) shape.material.ambientColor else shape.getColorAt(intersection, light)
   }
 
   private def intersect(ray: Ray)(shape: Shape) = shape.intersectionWith(ray)

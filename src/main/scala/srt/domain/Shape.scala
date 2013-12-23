@@ -46,8 +46,6 @@ case class Sphere(position: Vector, radius: Double, override val material: Mater
     if (((point - ray.position) dot ray.direction) > 0d) Some(Intersection(ray, this, point, distance)) else None
   }
 
-
-
   def normalVectorAt(point: Vector) = (point - position) / radius
 }
 

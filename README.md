@@ -4,6 +4,12 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* calculating plane position according to camera direction
+
+![8](progress/8/8.png)
+
+* * *
+
 * introduced plane as new shape
 
 ![7](progress/7/7.png)

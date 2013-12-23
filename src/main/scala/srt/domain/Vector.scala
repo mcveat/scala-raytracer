@@ -5,9 +5,9 @@ package srt.domain
  */
 case class Vector(x: Double, y: Double, z: Double) {
   def + = op(_ + _)
+  def +(d: Double) = op(_ + d)
   def - = op(_ - _)
   def * = op(_ * _)
-  def +(d: Double) = op(_ + d)
   def *(d: Double) = op(_ * d)
   def / = op(_ / _)
   def /(d: Double) = op(_ / d)
