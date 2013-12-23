@@ -6,7 +6,8 @@ Because every developer should do it at least once in his favourite language.
 
 * introduced multiple light sources
 
-![8](progress/8/8.png)
+![8.2](progress/8/8.2.png)
+![8.1](progress/8/8.1.png)
 
 * * *
 

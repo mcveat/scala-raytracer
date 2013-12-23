@@ -19,19 +19,21 @@ object Configuration {
 
 object Main {
   val scene = {
-    val cameraPosition = Vector(500, HEIGHT, -1000)
+    val cameraPosition = Vector(500, HEIGHT * 2.3, -3000)
     Scene(
       Camera(
         position = cameraPosition,
-        direction = (Vector(500, 0, 1000) - cameraPosition).normalize,
+        direction = (Vector(500, 0, 1200) - cameraPosition).normalize,
         up = Vector(0, 1, 0).normalize,
-        planeDistance = 1000
+        planeDistance = 1800
       ),
       List(
         Plane(Vector(0, 1, 0), 0, Material(Color.dimGray, 0d, 0.7)),
-        Sphere(Vector(500, 200, 400), 200, Material(Color.white, 0d, 0.7))
+        Sphere(Vector(300, 200, 400), 200, Material(Color.white, 0d, 0.7)),
+        Sphere(Vector(700, 200, 400), 200, Material(Color.black, 0.1, 0.7))
       ),
-      (for (x <- 0.to(1000, 200)) yield Light(Vector(x, HEIGHT * 1.5, 400), Color.white)).toList
+      (for (x <- 0.to(1000, 200)) yield Light(Vector(x, HEIGHT * 1.5, 400), Color.white)).toList :+
+      Light(cameraPosition, Color.white)
     )
   }
 
