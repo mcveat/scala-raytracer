@@ -39,7 +39,9 @@ object Main {
 
   def main(args: Array[String]) {
     args.toList match {
-      case output :: Nil => ImageWriter.write(scene.render, new File(s"$output.png"))
+      case output :: Nil =>
+        val progress = Some(new ConsoleProgress(HEIGHT * WIDTH))
+        ImageWriter.write(scene.render(progress), new File(s"$output.png"))
       case _ => sys exit 1
     }
   }
@@ -53,5 +55,24 @@ object ImageWriter {
       y <- 0 until HEIGHT
     } img.setRGB(x, y, data(x)(y).toInt)
     ImageIO.write(img, "png", file)
+  }
+}
+
+trait Progress {
+  val max: Int
+  def output(percent: Int)
+
+  var state = 0
+  val step = max / 100
+  def advance(by: Int = 1) = {
+    state = state + by
+    if (state % step == 0) output(state / step)
+  }
+}
+
+class ConsoleProgress(override val max:Int) extends Progress {
+  def output(percent: Int) = {
+    print(s"\r\033[Oprogress : $percent %")
+    if (percent == 100) println()
   }
 }
