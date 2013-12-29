@@ -4,6 +4,13 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* textures on spheres
+
+![11.1](progress/11/11.1.png)
+![11.2](progress/11/11.2.png)
+
+* * *
+
 * introduced bilinear texture filtering
 
 ![10](progress/10/10.png)

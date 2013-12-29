@@ -29,7 +29,7 @@ object Main {
       ),
       List(
         Plane(Vector(0, 1, 0), 0, Textured(Texture.load("textures/chessboard.png"), 0.002, 0.002, 0.25, 0.7)),
-        Sphere(Vector(500, 200, 400), 200, Solid(Color.white, 0.9, 0.7))
+        Sphere(Vector(500, 200, 400), 200, Textured(Texture.load("textures/chessboard.png"), 8, 8, 0, 0.7))
       ),
       (for (x <- 0.to(1000, 200)) yield Light(Vector(x, HEIGHT * 1.5, 400), Color.white)).toList :+
       Light(cameraPosition, Color.white)

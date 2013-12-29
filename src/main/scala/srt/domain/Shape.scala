@@ -33,6 +33,10 @@ trait Shape {
 }
 
 case class Sphere(position: Vector, radius: Double, override val material: Material) extends Shape {
+  lazy val north = Vector(0, 1, 0).normalize
+  lazy val east = Vector(1, 0, 0).normalize
+  lazy val equator = north x east
+
   def intersectionWith(ray: Ray): Option[Intersection] = {
     val a = ray.direction dot ray.direction
     val b = (ray.position - position) * 2 dot ray.direction
@@ -48,7 +52,14 @@ case class Sphere(position: Vector, radius: Double, override val material: Mater
   }
 
   def normalVectorAt(point: Vector) = (point - position) / radius
-  def textureCoordinatesAt(point: Vector): (Double, Double) = ???
+  def textureCoordinatesAt(point: Vector): (Double, Double) = {
+    val pointDirection = (point - position).normalize
+    val latitude = Math.acos((north dot pointDirection) * -1)
+    val v = latitude / Math.PI
+    val longitude = Math.acos(east dot pointDirection / Math.sin(latitude)) / 2 / Math.PI
+    val u = if ((equator dot pointDirection) >= 0) 1 - longitude else longitude
+    (u, v)
+  }
 }
 
 case class Plane(normal: Vector, distance: Double, override val material: Material) extends Shape {
