@@ -39,7 +39,7 @@ object Main {
   def main(args: Array[String]) {
     args.toList match {
       case output :: Nil =>
-        val progress = Some(new ConsoleProgress(HEIGHT * WIDTH))
+        val progress = new ConsoleProgress(HEIGHT * WIDTH)
         Image.write(scene.render(progress), new File(s"$output.png"))
       case _ => sys exit 1
     }
@@ -67,9 +67,11 @@ trait Progress {
 
   var state = 0
   val step = max / 100
-  def advance(by: Int = 1) = {
-    state = state + by
+  def advanceAfter[T](f: => T) = {
+    val result = f
+    state = state + 1
     if (state % step == 0) output(state / step)
+    result
   }
 }
 

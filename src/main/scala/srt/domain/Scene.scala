@@ -7,12 +7,8 @@ import srt.Progress
  * User: mcveat
  */
 case class Scene(camera: Camera, shapes: List[Shape], lights: List[Light]) {
-  def render(progress: Option[Progress] = None) =
-    for (x <- 0 until WIDTH) yield for (y <- (HEIGHT - 1).to(0, -1)) yield {
-      val pixel = trace(x, y)
-      progress.map(_.advance())
-      pixel
-    }
+  def render(progress: Progress) =
+    for (x <- 0 until WIDTH) yield for (y <- (HEIGHT - 1).to(0, -1)) yield progress.advanceAfter(trace(x, y))
   def trace(x: Int, y: Int): Color = trace(camera.rayThrough(x, y), shapes, TRACING_DEPTH)
 
   private def trace(ray: Ray, shapes: List[Shape], depth: Int): Color = {
