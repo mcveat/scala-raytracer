@@ -1,0 +1,28 @@
+* introduced bilinear texture filtering
+
++ 2h
+
+object Configuration {
+  val WIDTH = 800
+  val HEIGHT = 800
+  val DIFFUSE_COEFFICIENT = 0.9
+  val AMBIENT_COEFFICIENT = 0.1
+  val TRACING_DEPTH = 5
+  val SPECULAR_COEFFICIENT_POWER = 50
+}
+
+val cameraPosition = Vector(500, HEIGHT * 2.3, -3000)
+Scene(
+  Camera(
+    position = cameraPosition,
+    direction = (Vector(500, 0, 1200) - cameraPosition).normalize,
+    up = Vector(0, 1, 0).normalize,
+    planeDistance = 1800
+  ),
+  List(
+    Plane(Vector(0, 1, 0), 0, Textured(Texture.load("textures/chessboard.png"), 0.002, 0.002, 0.25, 0.7)),
+    Sphere(Vector(500, 200, 400), 200, Solid(Color.white, 0.9, 0.7))
+  ),
+  (for (x <- 0.to(1000, 200)) yield Light(Vector(x, HEIGHT * 1.5, 400), Color.white)).toList :+
+  Light(cameraPosition, Color.white)
+)

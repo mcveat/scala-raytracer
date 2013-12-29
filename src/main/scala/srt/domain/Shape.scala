@@ -53,7 +53,7 @@ case class Sphere(position: Vector, radius: Double, override val material: Mater
 
 case class Plane(normal: Vector, distance: Double, override val material: Material) extends Shape {
   val uAxis = Vector(normal.y, normal.z, normal.x * -1)
-  val vAxis = uAxis crossProduct normal
+  val vAxis = uAxis x normal
 
   def intersectionWith(ray: Ray): Option[Intersection] = {
     val d = normal dot ray.direction

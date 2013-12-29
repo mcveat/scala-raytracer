@@ -4,6 +4,12 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* introduced bilinear texture filtering
+
+![10](progress/10/10.png)
+
+* * *
+
 * introduced textures over plane
 
 ![9](progress/9/9.png)

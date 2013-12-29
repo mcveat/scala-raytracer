@@ -14,7 +14,7 @@ case class Vector(x: Double, y: Double, z: Double) {
   def dot(v: Vector) = (this * v).elementsSum
   def length = Math.sqrt(this dot this)
   def normalize = this / length
-  def crossProduct(other: Vector) = Vector(
+  def x(other: Vector): Vector = Vector(
     y * other.z - z * other.y,
     z * other.x - x * other.z,
     x * other.y - y * other.x
