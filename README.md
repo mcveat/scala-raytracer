@@ -4,6 +4,18 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* supersampling
+
+After:
+
+![supersampled](progress/12/supersampled.png)
+
+Before:
+
+![without supersampling](progress/12/without.png)
+
+* * *
+
 * textures on spheres
 
 ![11.1](progress/11/11.1.png)

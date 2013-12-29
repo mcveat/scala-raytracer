@@ -9,25 +9,26 @@ import srt.domain.Vector
 import srt.domain.Scene
 
 object Configuration {
-  val IMG_WIDTH = 1600
-  val IMG_HEIGHT = 1600
+  val IMG_WIDTH = 800
+  val IMG_HEIGHT = 800
   val DIFFUSE_COEFFICIENT = 0.9
   val AMBIENT_COEFFICIENT = 0.1
   val TRACING_DEPTH = 5
   val SPECULAR_COEFFICIENT_POWER = 50
+  val SUPERSAMPLING_FACTOR = 4
 }
 
 object Main {
   val scene = {
     val viewPlane = ViewPlane(800, 800)
-    val cameraPosition = Vector(500, viewPlane.height * 2.3, -3000)
+    val cameraPosition = Vector(500, viewPlane.height * 1.2, -1000)
     Scene(
       Camera(
         position = cameraPosition,
-        direction = (Vector(500, 0, 1200) - cameraPosition).normalize,
+        direction = (Vector(500, 0, 600) - cameraPosition).normalize,
         up = Vector(0, 1, 0).normalize,
         viewPlane,
-        planeDistance = 1800
+        planeDistance = 1300
       ),
       List(
         Plane(Vector(0, 1, 0), 0, Textured(Texture.load("textures/chessboard.png"), 0.002, 0.002, 0.25, 0.7)),
