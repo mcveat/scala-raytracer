@@ -7,9 +7,14 @@ import srt.Progress
  * User: mcveat
  */
 case class Scene(camera: Camera, shapes: List[Shape], lights: List[Light]) {
-  def render(progress: Progress) =
-    for (x <- 0 until WIDTH) yield for (y <- (HEIGHT - 1).to(0, -1)) yield progress.advanceAfter(trace(x, y))
-  def trace(x: Int, y: Int): Color = trace(camera.rayThrough(x, y), shapes, TRACING_DEPTH)
+  lazy val xStep = camera.plane.width / IMG_WIDTH
+  lazy val yStep = camera.plane.height / IMG_HEIGHT
+
+  def render(progress: Progress) = for (x <- 0 until IMG_WIDTH) yield for (y <- (IMG_HEIGHT - 1).to(0, -1)) yield {
+    progress.advanceAfter(trace(xStep * x, yStep * y))
+  }
+
+  def trace(x: Double, y: Double): Color = trace(camera.rayThrough(x, y), shapes, TRACING_DEPTH)
 
   private def trace(ray: Ray, shapes: List[Shape], depth: Int): Color = {
     val intersections = shapes.map(intersect(ray))

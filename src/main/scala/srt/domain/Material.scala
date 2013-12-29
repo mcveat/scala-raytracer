@@ -18,6 +18,7 @@ case class Textured(texture: Texture, uScale: Double, vScale: Double, override v
                     override val specularReflectiveness: Double) extends Material {
   lazy val width = texture.data.head.size
   lazy val height = texture.data.size
+
   def colorAt(intersection: Intersection) =  {
     val (u, v) = intersection.shape.textureCoordinatesAt(intersection.point)
 
