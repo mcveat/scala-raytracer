@@ -13,7 +13,7 @@ object Configuration {
   val HEIGHT = 800
   val DIFFUSE_COEFFICIENT = 0.9
   val AMBIENT_COEFFICIENT = 0.1
-  val TRACING_DEPTH = 1
+  val TRACING_DEPTH = 5
   val SPECULAR_COEFFICIENT_POWER = 50
 }
 
@@ -28,9 +28,8 @@ object Main {
         planeDistance = 1800
       ),
       List(
-        Plane(Vector(0, 1, 0), 0, Material(Color.dimGray, 0d, 0.7)),
-        Sphere(Vector(300, 200, 400), 200, Material(Color.white, 0d, 0.7)),
-        Sphere(Vector(700, 200, 400), 200, Material(Color.black, 0.1, 0.7))
+        Plane(Vector(0, 1, 0), 0, Textured(Texture.load("textures/chessboard.png"), 3, 3, 0.25, 0.7)),
+        Sphere(Vector(500, 200, 400), 200, Solid(Color.white, 0.9, 0.7))
       ),
       (for (x <- 0.to(1000, 200)) yield Light(Vector(x, HEIGHT * 1.5, 400), Color.white)).toList :+
       Light(cameraPosition, Color.white)
@@ -41,13 +40,13 @@ object Main {
     args.toList match {
       case output :: Nil =>
         val progress = Some(new ConsoleProgress(HEIGHT * WIDTH))
-        ImageWriter.write(scene.render(progress), new File(s"$output.png"))
+        Image.write(scene.render(progress), new File(s"$output.png"))
       case _ => sys exit 1
     }
   }
 }
 
-object ImageWriter {
+object Image {
   def write(data: Seq[Seq[Color]], file: File) {
     val img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB)
     for {
@@ -55,6 +54,10 @@ object ImageWriter {
       y <- 0 until HEIGHT
     } img.setRGB(x, y, data(x)(y).toInt)
     ImageIO.write(img, "png", file)
+  }
+  def read(file: File) = {
+    val img = ImageIO.read(file)
+    for (y <- 0 until img.getHeight) yield for (x <- 0 until img.getWidth) yield Color(img.getRGB(x, y))
   }
 }
 

@@ -35,7 +35,7 @@ case class Scene(camera: Camera, shapes: List[Shape], lights: List[Light]) {
     val shadowRay = Ray(point, light.position - point)
     val shadeIntersections = shapes.filterNot(intersection.shape ==).map(intersect(shadowRay)).flatten
     val inShade = shadeIntersections.map(_.distanceTo(light.position)).exists(intersection.distanceTo(light.position) >)
-    if (inShade) shape.material.ambientColor else shape.getColorAt(intersection, light)
+    if (inShade) shape.material.colorAt(intersection).ambient else shape.getColorAt(intersection, light)
   }
 
   private def intersect(ray: Ray)(shape: Shape) = shape.intersectionWith(ray)

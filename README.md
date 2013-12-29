@@ -4,6 +4,12 @@ Because every developer should do it at least once in his favourite language.
 
 ## Progress
 
+* introduced textures over plane
+
+![9](progress/9/9.png)
+
+* * *
+
 * introduced multiple light sources
 
 ![8.2](progress/8/8.2.png)

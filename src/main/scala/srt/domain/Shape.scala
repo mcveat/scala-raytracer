@@ -24,11 +24,12 @@ trait Shape {
   def diffusedShadeColor(intersection: Intersection, light: Light): Color = {
     val lightDirection = (light.position - intersection.point).normalize
     val factor = normalVectorAt(intersection.point) dot lightDirection
-    material.diffusedShadeColor(factor)
+    material.colorAt(intersection).diffusedShade(factor)
   }
 
   def intersectionWith(ray: Ray): Option[Intersection]
   def normalVectorAt(point: Vector): Vector
+  def textureCoordinatesAt(point: Vector): (Double, Double)
 }
 
 case class Sphere(position: Vector, radius: Double, override val material: Material) extends Shape {
@@ -47,9 +48,13 @@ case class Sphere(position: Vector, radius: Double, override val material: Mater
   }
 
   def normalVectorAt(point: Vector) = (point - position) / radius
+  def textureCoordinatesAt(point: Vector): (Double, Double) = ???
 }
 
 case class Plane(normal: Vector, distance: Double, override val material: Material) extends Shape {
+  val uAxis = Vector(normal.y, normal.z, normal.x * -1)
+  val vAxis = uAxis crossProduct normal
+
   def intersectionWith(ray: Ray): Option[Intersection] = {
     val d = normal dot ray.direction
     if (d == 0) return None
@@ -59,4 +64,5 @@ case class Plane(normal: Vector, distance: Double, override val material: Materi
     Some(Intersection(ray, this, point, intersectionDistance))
   }
   def normalVectorAt(point: Vector) = normal
+  def textureCoordinatesAt(point: Vector) = (point dot uAxis, point dot vAxis)
 }

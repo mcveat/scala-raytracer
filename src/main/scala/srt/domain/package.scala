@@ -1,6 +1,7 @@
 package srt
 
 import srt.Configuration._
+import java.io.File
 
 /**
  * User: mcveat
@@ -24,9 +25,8 @@ package object domain {
       Ray(point, direction)
     }
   }
-  case class Material(color: Color, reflectiveness: Double, specularReflectiveness: Double) {
-    def ambientColor = color * AMBIENT_COEFFICIENT
-    def diffusedShadeColor(factor: Double) =
-      if (factor <= 0) ambientColor else color * factor * DIFFUSE_COEFFICIENT + ambientColor
+  case class Texture(data: Seq[Seq[Color]])
+  object Texture {
+    def load(path: String) = Texture(Image.read(new File(path)))
   }
 }
