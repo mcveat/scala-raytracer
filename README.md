@@ -86,3 +86,7 @@ Before:
 * ambient light only
 
 ![1](/progress/1/1.png)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mcveat/scala-raytracer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
